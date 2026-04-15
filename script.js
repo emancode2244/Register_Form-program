@@ -1,30 +1,75 @@
 function showLogin() {
-    document.getElementById("registerBox").style.display = "none";
-    document.getElementById("loginBox").style.display = "block";
+    loginForm.classList.add("active");
+    registerForm.classList.remove("active");
+
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
 }
 
 function showRegister() {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("registerBox").style.display = "block";
+    registerForm.classList.add("active");
+    loginForm.classList.remove("active");
+
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
 }
 
+function togglePassword(id) {
+    let input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+}
+
+
+function checkInput(input) {
+    if (input.value !== "") {
+        input.parentElement.classList.add("active");
+    } else {
+        input.parentElement.classList.remove("active");
+    }
+}
+
+// Register
 function register() {
-    let name = document.getElementById("regName").value;
-    let email = document.getElementById("regEmail").value;
-    let pass = document.getElementById("regPass").value;
+    let name = regName.value.trim();
+    let email = regEmail.value.trim();
+    let pass = regPass.value.trim();
+
+    let error = document.getElementById("regError");
+    error.innerText = "";
+
+    if (!name || !email || !pass) {
+        error.innerText = "Fill all fields";
+        return;
+    }
+
+    if (pass.length < 6) {
+        error.innerText = "Password too short";
+        return;
+    }
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    users.push({ name, email, pass });
+    if (users.find(u => u.email === email)) {
+        error.innerText = "Email exists";
+        return;
+    }
 
+    users.push({ name, email, pass });
     localStorage.setItem("users", JSON.stringify(users));
 
-    alert("Registered!");
+    error.style.color = "lightgreen";
+    error.innerText = "Success ✔";
+
+    setTimeout(showLogin, 1000);
 }
 
+// Login
 function login() {
-    let email = document.getElementById("loginEmail").value;
-    let pass = document.getElementById("loginPass").value;
+    let email = loginEmail.value.trim();
+    let pass = loginPass.value.trim();
+
+    let error = document.getElementById("loginError");
+    error.innerText = "";
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -32,8 +77,8 @@ function login() {
 
     if (user) {
         localStorage.setItem("currentUser", JSON.stringify(user));
-        window.location.href = "dashboard.html";
+        alert("Welcome " + user.name);
     } else {
-        alert("Wrong data");
+        error.innerText = "Wrong data";
     }
 }

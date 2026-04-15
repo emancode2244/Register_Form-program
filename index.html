@@ -1,27 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login System</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/form icon.png">
+<meta charset="UTF-8">
+<title>Auth Pro</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="registerBox">
-    <h2>Register</h2>
-    <input id="regName" placeholder="Name">
-    <input id="regEmail" placeholder="Email">
-    <input id="regPass" placeholder="Password">
-    <button onclick="register()">Register</button>
-    <p onclick="showLogin()">Go to Login</p>
-</div>
+<div class="container">
 
-<div id="loginBox" style="display:none;">
-    <h2>Login</h2>
-    <input id="loginEmail" placeholder="Email">
-    <input id="loginPass" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p onclick="showRegister()">Go to Register</p>
+    <div class="card">
+
+        <!-- Toggle Buttons -->
+        <div class="tabs">
+            <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+            <button id="registerTab" onclick="showRegister()">Register</button>
+        </div>
+
+        <!-- Login -->
+        <div id="loginForm" class="form active">
+            <h2>Welcome Back 👋</h2>
+
+            <div class="input-box">
+                <input id="loginEmail" type="email" required oninput="checkInput(this)">
+                <label>Email</label>
+            </div>
+
+            <div class="input-box">
+                <input id="loginPass" type="password" required oninput="checkInput(this)">
+                <label>Password</label>
+                <span onclick="togglePassword('loginPass')"></span>
+            </div>
+
+            <p class="error" id="loginError"></p>
+
+            <button onclick="login()">Login</button>
+        </div>
+
+        <!-- Register -->
+        <div id="registerForm" class="form">
+            <h2>Create Account ✨</h2>
+
+            <div class="input-box">
+                <input id="regName" type="text" required oninput="checkInput(this)">
+                <label>Full Name</label>
+            </div>
+
+            <div class="input-box">
+                <input id="regEmail" type="email" required oninput="checkInput(this)">
+                <label>Email</label>
+            </div>
+
+            <div class="input-box">
+                <input id="regPass" type="password" required oninput="checkInput(this)">
+                <label>Password</label>
+                <span onclick="togglePassword('regPass')"></span>
+            </div>
+
+            <p class="error" id="regError"></p>
+
+            <button onclick="register()">Register</button>
+        </div>
+
+    </div>
+
 </div>
 
 <script src="script.js"></script>
